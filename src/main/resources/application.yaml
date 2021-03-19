@@ -1,0 +1,28 @@
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+spring:
+  ldap:
+    base: o=5e0876b67caa6f5224963c97,dc=jumpcloud,dc=com
+    username: uid=robot
+    password:
+    urls: ldaps://ldap.:636
+    userIdAttribute: uid
+    userMailAttribute: mail
+    userFirstNameAttribute: givenName
+    userLastnameAttribute: sn
+    userSearchBase: ou=Users
+    groupSearchBase: ou=Users
+    userSearchFilter: (objectClass=person)
+    groupSearchFilter: (objectclass=groupOfNames)
+    groupIdAttribute: cn
+    groupNameAttribute: cn
+    groupMemberAttribute: member
+camunda:
+  bpm:
+    adminGroup: Camunda_admin
+    authorization:
+      enabled: false

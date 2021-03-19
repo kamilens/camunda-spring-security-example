@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.1.1">
+  <bpmn:process id="onboarding" name="Регистрация нового клиента" isExecutable="true" camunda:candidateStarterGroups="crm">
+    <bpmn:startEvent id="StartEvent_1" name="Новый клиент" camunda:initiator="initiator">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="inn" label="ИНН компании" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="Gateway_0jk00oq" />
+    <bpmn:exclusiveGateway id="Gateway_0jk00oq" name="Клиент является резидентом (указан ИНН)?" default="Flow_04ve532">
+      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
+      <bpmn:outgoing>Flow_08k4yeg</bpmn:outgoing>
+      <bpmn:outgoing>Flow_04ve532</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_08k4yeg" name="Да" sourceRef="Gateway_0jk00oq" targetRef="Activity_1olb31g">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ inn != null }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ogtmc7" sourceRef="Activity_1olb31g" targetRef="Gateway_1831ee7" />
+    <bpmn:userTask id="Activity_16mwg92" name="Заполнить дополнительные данные">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="inn" label="ИНН / Tax ID" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="id" label="Придумайте внутреннее название клиента (англ)" type="string" />
+          <camunda:formField id="name" label="Наименование" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="fullName" label="Полное наименование" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="country" label="Страна регистрации" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="kpp" label="КПП" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ogrn" label="ОГРН / Регистрационный номер" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="city" label="Город, населенный пункт" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="street" label="Улица" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="house" label="Дом" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="building" label="Строение" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="office" label="Офис" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="postalCode" label="Индекс" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="bic" label="БИК" type="string" />
+          <camunda:formField id="account" label="Номер счета" type="string" />
+          <camunda:formField id="email" label="E-mail" type="string" />
+          <camunda:formField id="phone" label="Телефон" type="string" />
+          <camunda:formField id="contactName" label="Полное имя контактного лица" type="string" />
+          <camunda:formField id="contactPosition" label="Должность контактного лица" type="string" />
+          <camunda:formField id="comment" label="Прочая информация" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06zilc6</bpmn:incoming>
+      <bpmn:outgoing>Flow_095kl0y</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_18bhehz" name="Заполнить основные данные">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="inn" label="ИНН / Tax ID" type="string" />
+          <camunda:formField id="id" label="Придумайте внутреннее название клиента (англ)" type="string" />
+          <camunda:formField id="name" label="Наименование" type="string" />
+          <camunda:formField id="fullName" label="Полное наименование" type="string" />
+          <camunda:formField id="country" label="Страна регистрации" type="string" />
+          <camunda:formField id="kpp" label="КПП" type="string" />
+          <camunda:formField id="ogrn" label="ОГРН / Регистрационный номер" type="string" />
+          <camunda:formField id="city" label="Город, населенный пункт" type="string" />
+          <camunda:formField id="street" label="Улица" type="string" />
+          <camunda:formField id="house" label="Дом" type="string" />
+          <camunda:formField id="building" label="Строение" type="string" />
+          <camunda:formField id="office" label="Офис" type="string" />
+          <camunda:formField id="postalCode" label="Индекс" type="string" />
+          <camunda:formField id="bic" label="БИК" type="string" />
+          <camunda:formField id="account" label="Номер счета" type="string" />
+          <camunda:formField id="email" label="E-mail" type="string" />
+          <camunda:formField id="phone" label="Телефон" type="string" />
+          <camunda:formField id="contactName" label="Полное имя контактного лица" type="string" />
+          <camunda:formField id="contactPosition" label="Должность контактного лица" type="string" />
+          <camunda:formField id="comment" label="Прочая информация" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1b34pp8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n21to1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_04ve532" name="Нет" sourceRef="Gateway_0jk00oq" targetRef="Gateway_1o6rhge" />
+    <bpmn:exclusiveGateway id="Gateway_1831ee7" name="Данные успешно получены?" default="Flow_19s34uc">
+      <bpmn:incoming>Flow_1ogtmc7</bpmn:incoming>
+      <bpmn:outgoing>Flow_06zilc6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19s34uc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_06zilc6" name="Да" sourceRef="Gateway_1831ee7" targetRef="Activity_16mwg92">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ isEgrulOk }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_1o6rhge">
+      <bpmn:incoming>Flow_04ve532</bpmn:incoming>
+      <bpmn:incoming>Flow_19s34uc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1b34pp8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1b34pp8" sourceRef="Gateway_1o6rhge" targetRef="Activity_18bhehz" />
+    <bpmn:sequenceFlow id="Flow_19s34uc" name="Нет" sourceRef="Gateway_1831ee7" targetRef="Gateway_1o6rhge" />
+    <bpmn:exclusiveGateway id="Gateway_0n9buwc">
+      <bpmn:incoming>Flow_095kl0y</bpmn:incoming>
+      <bpmn:incoming>Flow_1n21to1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0oe39rz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_095kl0y" sourceRef="Activity_16mwg92" targetRef="Gateway_0n9buwc" />
+    <bpmn:sequenceFlow id="Flow_1n21to1" sourceRef="Activity_18bhehz" targetRef="Gateway_0n9buwc" />
+    <bpmn:sequenceFlow id="Flow_0oe39rz" sourceRef="Gateway_0n9buwc" targetRef="Activity_16smnxi" />
+    <bpmn:sequenceFlow id="Flow_0m7x0yo" sourceRef="Activity_16smnxi" targetRef="Activity_0brxh9s" />
+    <bpmn:endEvent id="Event_14h8qbp" name="Клиент зарегистрирован">
+      <bpmn:incoming>Flow_0jppxda</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0jppxda" sourceRef="Activity_0brxh9s" targetRef="Event_14h8qbp" />
+    <bpmn:serviceTask id="Activity_1olb31g" name="Получить данные из ЕГРЮЛ" camunda:delegateExpression="${ getEgrul }">
+      <bpmn:incoming>Flow_08k4yeg</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ogtmc7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_16smnxi" name="Сохранить данные клиента в  Service Desk (OTRS)" camunda:delegateExpression="${ createOtrs }">
+      <bpmn:incoming>Flow_0oe39rz</bpmn:incoming>
+      <bpmn:outgoing>Flow_0m7x0yo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0brxh9s" name="Сохранить данные клиента в ERP (1C)" camunda:delegateExpression="${ createErp }">
+      <bpmn:incoming>Flow_0m7x0yo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jppxda</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="onboarding">
+      <bpmndi:BPMNEdge id="Flow_0jppxda_di" bpmnElement="Flow_0jppxda">
+        <di:waypoint x="1100" y="230" />
+        <di:waypoint x="1162" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m7x0yo_di" bpmnElement="Flow_0m7x0yo">
+        <di:waypoint x="950" y="230" />
+        <di:waypoint x="1000" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oe39rz_di" bpmnElement="Flow_0oe39rz">
+        <di:waypoint x="815" y="230" />
+        <di:waypoint x="850" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1n21to1_di" bpmnElement="Flow_1n21to1">
+        <di:waypoint x="720" y="320" />
+        <di:waypoint x="790" y="320" />
+        <di:waypoint x="790" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_095kl0y_di" bpmnElement="Flow_095kl0y">
+        <di:waypoint x="720" y="140" />
+        <di:waypoint x="790" y="140" />
+        <di:waypoint x="790" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19s34uc_di" bpmnElement="Flow_19s34uc">
+        <di:waypoint x="530" y="165" />
+        <di:waypoint x="530" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="536" y="227" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b34pp8_di" bpmnElement="Flow_1b34pp8">
+        <di:waypoint x="555" y="320" />
+        <di:waypoint x="620" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06zilc6_di" bpmnElement="Flow_06zilc6">
+        <di:waypoint x="555" y="140" />
+        <di:waypoint x="620" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="581" y="122" width="14" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04ve532_di" bpmnElement="Flow_04ve532">
+        <di:waypoint x="310" y="255" />
+        <di:waypoint x="310" y="320" />
+        <di:waypoint x="505" y="320" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="316" y="287" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ogtmc7_di" bpmnElement="Flow_1ogtmc7">
+        <di:waypoint x="460" y="140" />
+        <di:waypoint x="505" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08k4yeg_di" bpmnElement="Flow_08k4yeg">
+        <di:waypoint x="310" y="205" />
+        <di:waypoint x="310" y="140" />
+        <di:waypoint x="360" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="318" y="169" width="14" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
+        <di:waypoint x="228" y="230" />
+        <di:waypoint x="285" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Gateway_0jk00oq_di" bpmnElement="Gateway_0jk00oq" isMarkerVisible="true">
+        <dc:Bounds x="285" y="205" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="345" y="210" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1831ee7_di" bpmnElement="Gateway_1831ee7" isMarkerVisible="true">
+        <dc:Bounds x="505" y="115" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="486" y="78" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1o6rhge_di" bpmnElement="Gateway_1o6rhge" isMarkerVisible="true">
+        <dc:Bounds x="505" y="295" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0n9buwc_di" bpmnElement="Gateway_0n9buwc" isMarkerVisible="true">
+        <dc:Bounds x="765" y="205" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14h8qbp_di" bpmnElement="Event_14h8qbp">
+        <dc:Bounds x="1162" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1137" y="255" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="255" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0n09aql_di" bpmnElement="Activity_1olb31g">
+        <dc:Bounds x="360" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oai6qd_di" bpmnElement="Activity_16smnxi">
+        <dc:Bounds x="850" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1o3nrn7_di" bpmnElement="Activity_0brxh9s">
+        <dc:Bounds x="1000" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18bhehz_di" bpmnElement="Activity_18bhehz">
+        <dc:Bounds x="620" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0n3yp4l_di" bpmnElement="Activity_16mwg92">
+        <dc:Bounds x="620" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
